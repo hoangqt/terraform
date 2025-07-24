@@ -65,7 +65,7 @@ resource "oci_core_security_list" "ubuntu_24_04_sl" {
   }
 
   ingress_security_rules {
-    protocol    = "6"               # TCP
+    protocol    = "6"         # TCP
     source      = "0.0.0.0/0" # Replace with your IP or CIDR block for security
     source_type = "CIDR_BLOCK"
 
