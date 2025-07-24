@@ -1,0 +1,45 @@
+---
+name: Terraform configs CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  terraform-configs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: false
+
+      - name: Setup terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.11.4
+
+      - uses: terraform-linters/setup-tflint@v4
+        name: Setup tflint
+        with:
+          tflint_version: v0.54.0
+
+      - name: Configure tflint
+        run: |
+          cp .tflint.hcl ~
+          tflint --init
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Terraform formatting check
+        id: fmt
+        run: |
+          terraform fmt -recursive -check -diff $GITHUB_WORKSPACE
+
+      - name: Terraform linting
+        run: tflint --recursive -f compact
