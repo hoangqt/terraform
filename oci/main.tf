@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     oci = {
-      source = "oracle/oci"
+      source  = "oracle/oci"
       version = "7.10.0"
     }
   }
@@ -20,12 +20,12 @@ data "oci_identity_availability_domains" "ad" {
 }
 
 data "oci_core_images" "ubuntu_image" {
-  compartment_id = var.tenancy_ocid
-  operating_system = "Canonical Ubuntu"
+  compartment_id           = var.tenancy_ocid
+  operating_system         = "Canonical Ubuntu"
   operating_system_version = "24.04"
-  shape = "VM.Standard.E2.1.Micro"
-  sort_by = "TIMECREATED"
-  sort_order = "DESC"
+  shape                    = var.shape
+  sort_by                  = "TIMECREATED"
+  sort_order               = "DESC"
 }
 
 resource "oci_core_vcn" "ubuntu_24_04_vcn" {
@@ -65,7 +65,7 @@ resource "oci_core_security_list" "ubuntu_24_04_sl" {
   }
 
   ingress_security_rules {
-    protocol    = "6" # TCP
+    protocol    = "6"               # TCP
     source      = "0.0.0.0/0" # Replace with your IP or CIDR block for security
     source_type = "CIDR_BLOCK"
 
@@ -84,10 +84,10 @@ resource "oci_core_security_list" "ubuntu_24_04_sl" {
 
 resource "oci_core_subnet" "ubuntu_24_04_subnet" {
   compartment_id    = var.compartment_id
-  vcn_id           = oci_core_vcn.ubuntu_24_04_vcn.id
-  display_name     = "ubuntu-24-04-subnet"
-  cidr_block       = "10.0.0.0/24"
-  route_table_id   = oci_core_route_table.ubuntu_24_04_rt.id
+  vcn_id            = oci_core_vcn.ubuntu_24_04_vcn.id
+  display_name      = "ubuntu-24-04-subnet"
+  cidr_block        = "10.0.0.0/24"
+  route_table_id    = oci_core_route_table.ubuntu_24_04_rt.id
   security_list_ids = [oci_core_security_list.ubuntu_24_04_sl.id]
 }
 
@@ -95,7 +95,7 @@ resource "oci_core_instance" "ubuntu_24_04" {
   availability_domain = data.oci_identity_availability_domains.ad.availability_domains[0].name
   compartment_id      = var.compartment_id
   display_name        = "ubuntu-24-04"
-  shape               = "VM.Standard.E2.1.Micro"
+  shape               = var.shape
 
   create_vnic_details {
     subnet_id        = oci_core_subnet.ubuntu_24_04_subnet.id
@@ -116,6 +116,6 @@ resource "oci_core_instance" "ubuntu_24_04" {
 
   launch_options {
     is_pv_encryption_in_transit_enabled = true
-    network_type = "PARAVIRTUALIZED"
+    network_type                        = "PARAVIRTUALIZED"
   }
 }

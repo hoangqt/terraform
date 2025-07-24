@@ -1,16 +1,16 @@
 variable "tenancy_ocid" {
   description = "The OCID of the tenancy."
-  default = ""
+  default     = ""
 }
 
 variable "user_ocid" {
   description = "The OCID of the user."
-  default = ""
+  default     = ""
 }
 
 variable "fingerprint" {
   description = "The fingerprint of the API key."
-  default = ""
+  default     = ""
 }
 
 variable "private_key_path" {
@@ -25,10 +25,10 @@ variable "region" {
 
 variable "compartment_id" {
   description = "The OCID of the compartment."
-  default = ""
+  default     = ""
 }
 
-variable "shape_name" {
-  description = "The shape name for the instance."
-  default     = ""
+variable "shape" {
+  description = "The shape of the compute instance."
+  default     = "VM.Standard2.1"
 }
