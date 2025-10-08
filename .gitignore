@@ -1,0 +1,13 @@
+*.tfstate
+*.tfstate.*
+
+*.tfvars
+*.tfvars.*
+
+*.pem
+*.key
+id_rsa
+id_rsa.*
+*.ppk
+
+.DS_Store
