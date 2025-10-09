@@ -62,7 +62,7 @@ resource "aws_security_group" "web" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = [var.ssh_location]
+    cidr_blocks = var.ssh_cidrs
   }
 
   ingress {
@@ -70,7 +70,7 @@ resource "aws_security_group" "web" {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = [var.ssh_location]
+    cidr_blocks = var.ingress_cidrs
   }
 
   egress {
@@ -78,6 +78,6 @@ resource "aws_security_group" "web" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1" # All protocols
-    cidr_blocks = [var.ssh_location]
+    cidr_blocks = var.egress_cidrs
   }
 }

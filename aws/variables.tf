@@ -1,7 +1,19 @@
-variable "ssh_location" {
+variable "ssh_cidrs" {
   description = ""
-  type        = string
-  default     = "FIXME"
+  type        = list(string)
+  default     = ["0.0.0.0/0"] # Replace with your IP range for better security
+}
+
+variable "ingress_cidrs" {
+  description = ""
+  type        = list(string)
+  default     = ["0.0.0.0/0"] # Replace with your IP range for better security
+}
+
+variable "egress_cidrs" {
+  description = ""
+  type        = list(string)
+  default     = ["0.0.0.0/0"] # Replace with your IP range for better security
 }
 
 variable "key_name" {
